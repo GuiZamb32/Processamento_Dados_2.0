@@ -301,7 +301,8 @@ function Status() {
         marginTop: 'var(--space-lg)'
       }}>
         <h3 style={{ marginBottom: 'var(--space-sm)', color: 'var(--info)' }}>
-          ℹ️ Sobre o Pipeline
+          <img src="/exclamacao.png" alt="Info" className="status-icon-small" />
+          Sobre o Pipeline
         </h3>
         <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
           <li><strong>Arquitetura:</strong> Python + SQLAlchemy + FastAPI + React</li>

@@ -555,6 +555,35 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   Icons
+   ═══════════════════════════════════════════════════════════ */
+
+.nav-icon-img {
+  width: 24px;  
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 8px; 
+}
+
+.logo .nav-icon-img {
+  width: 32px;
+  height: 32px;
+}
+
+.status-icon-small {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.empty-icon-img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════════════ */
 

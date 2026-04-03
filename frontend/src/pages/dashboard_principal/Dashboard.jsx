@@ -46,7 +46,8 @@ function Dashboard() {
       <div className="page">
         <div className="error">
           <div className="error-title">
-            <span>⚠️</span>
+            {/* Ícone de Atenção da pasta public */}
+            <img src="/atencao.png" alt="Erro" className="status-icon-small" />
             <span>Erro ao Carregar Dados</span>
           </div>
           <p className="error-message">{error}</p>
@@ -55,7 +56,8 @@ function Dashboard() {
           </button>
         </div>
         <div className="empty-state">
-          <div className="empty-icon">📊</div>
+          {/* Ícone de Gráfico da pasta public */}
+          <img src="/grafico.png" alt="Pipeline" className="empty-icon-img" />
           <h3 className="empty-title">Pipeline Não Executado</h3>
           <p className="empty-description">
             Execute os scripts do pipeline na seguinte ordem:<br/>
@@ -63,7 +65,7 @@ function Dashboard() {
             2. <code>py 02_coletar_ipca.py</code><br/>
             3. <code>py -m scrapy runspider 03_scraper_giassi.py</code><br/>
             4. <code>py 04_carregar_produtos.py</code><br/>
-            5. <code>py api_cesta_basica.py</code> (esta API)
+            5. <code>py api_cesta_basica.py</code>
           </p>
         </div>
       </div>
@@ -83,7 +85,7 @@ function Dashboard() {
       <div className="kpi-grid">
         <div className="kpi-card success">
           <div className="kpi-label">Cesta Menor Valor</div>
-          <div className="kpi-value success">
+          <div className="kpi-value success" style={{ color: 'var(--Verde-Accent)' }}>
             R$ {data.cesta_menor_valor.toFixed(2)}
           </div>
           <div className="kpi-subtitle">
@@ -93,7 +95,7 @@ function Dashboard() {
 
         <div className="kpi-card danger">
           <div className="kpi-label">Cesta Maior Valor</div>
-          <div className="kpi-value danger">
+          <div className="kpi-value danger" style={{ color: 'var(--Vermelho-Alert)' }}>
             R$ {data.cesta_maior_valor.toFixed(2)}
           </div>
           <div className="kpi-subtitle">
@@ -162,25 +164,17 @@ function Dashboard() {
           <tbody>
             <tr>
               <td><strong>Menor Valor</strong></td>
-              <td className="price-cell">
-                R$ {data.cesta_menor_valor.toFixed(2)}
-              </td>
-              <td className="price-cell">
-                R$ {data.complemento_menor.toFixed(2)}
-              </td>
-              <td className="price-cell">
+              <td className="price-cell">R$ {data.cesta_menor_valor.toFixed(2)}</td>
+              <td className="price-cell">R$ {data.complemento_menor.toFixed(2)}</td>
+              <td className="price-cell" style={{ color: 'var(--Verde-Accent)' }}>
                 <strong>R$ {data.total_menor_completo.toFixed(2)}</strong>
               </td>
             </tr>
             <tr>
               <td><strong>Maior Valor</strong></td>
-              <td className="price-cell high">
-                R$ {data.cesta_maior_valor.toFixed(2)}
-              </td>
-              <td className="price-cell high">
-                R$ {data.complemento_maior.toFixed(2)}
-              </td>
-              <td className="price-cell high">
+              <td className="price-cell high">R$ {data.cesta_maior_valor.toFixed(2)}</td>
+              <td className="price-cell high">R$ {data.complemento_maior.toFixed(2)}</td>
+              <td className="price-cell high" style={{ color: 'var(--Vermelho-Alert)' }}>
                 <strong>R$ {data.total_maior_completo.toFixed(2)}</strong>
               </td>
             </tr>
@@ -189,17 +183,19 @@ function Dashboard() {
       </div>
 
       {/* Info Box */}
-      <div style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
-        borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-lg)',
-        marginTop: 'var(--space-lg)'
+      <div className="info-box" style={{
+        background: 'var(--Preto-Elevated)',
+        border: '1px solid var(--Cinza-Dark)',
+        borderRadius: '8px',
+        padding: '20px',
+        marginTop: '20px'
       }}>
-        <h3 style={{ marginBottom: 'var(--space-sm)', color: 'var(--brand-primary)' }}>
-          ℹ️ Sobre os Dados
+        <h3 style={{ marginBottom: '10px', color: 'var(--Azul-Primary)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Ícone de Exclamação da pasta public */}
+          <img src="/exclamacao.png" alt="Info" className="status-icon-small" />
+          Sobre os Dados
         </h3>
-        <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
+        <ul style={{ color: 'var(--Branco-Text)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
           <li><strong>Cesta Básica:</strong> Arroz (5kg), Feijão (2kg), Óleo de Soja (900ml), Açúcar (1kg), Café (500g)</li>
           <li><strong>Complemento:</strong> Macarrão (1kg), Farinha (500g), Sal (1kg)</li>
           <li><strong>Fonte de Preços:</strong> Web Scraping automatizado do site Giassi Supermercados</li>

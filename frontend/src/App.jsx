@@ -1,8 +1,8 @@
-// A importação correta deve ser assim:
 import React, { useState } from 'react'; 
+// As importações de Router foram mantidas caso precise usá-las futuramente, 
+// mas o controle atual é via estado (useState).
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-// Importações das suas páginas (verifique se os nomes das pastas estão corretos)
 import Dashboard from './pages/dashboard_principal/Dashboard';
 import Analise from './pages/analise_historica/Analise';
 import Comparativo from './pages/comparativo_cestas/Comparativo';
@@ -20,11 +20,12 @@ function App() {
     status: <Status />
   };
 
+  // Ícones atualizados para apontar para a pasta public
   const menuItems = [
-    { id: 'dashboard', icon: '📊', label: 'Dashboard' },
-    { id: 'comparativo', icon: '🛒', label: 'Composição' },
-    { id: 'analise', icon: '📈', label: 'Histórico' },
-    { id: 'status', icon: '⚙️', label: 'Status' }
+    { id: 'dashboard', icon: '/grafico.png', label: 'Dashboard' },
+    { id: 'comparativo', icon: '/carrinho-compras.png', label: 'Composição' },
+    { id: 'analise', icon: '/historico.png', label: 'Histórico' },
+    { id: 'status', icon: '/configuracao.png', label: 'Status' }
   ];
 
   return (
@@ -32,7 +33,11 @@ function App() {
       {/* Sidebar */}
       <nav className="sidebar">
         <div className="sidebar-header">
-          <h1 className="logo">🛒 Cesta Básica</h1>
+          {/* Logo principal também usando o ícone de carrinho */}
+          <h1 className="logo">
+            <img src="/carrinho-compras.png" alt="Logo" className="nav-icon-img" />
+            Cesta Básica
+          </h1>
           <p className="subtitle">Pipeline de Dados</p>
         </div>
 
@@ -43,7 +48,9 @@ function App() {
               className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
               onClick={() => setCurrentPage(item.id)}
             >
-              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-icon">
+                <img src={item.icon} alt={item.label} className="nav-icon-img" />
+              </span>
               <span className="nav-label">{item.label}</span>
             </button>
           ))}

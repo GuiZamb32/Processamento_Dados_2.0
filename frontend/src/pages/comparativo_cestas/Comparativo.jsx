@@ -48,7 +48,7 @@ function Comparativo() {
       <div className="page">
         <div className="error">
           <div className="error-title">
-            <span>⚠️</span>
+            <img src="/atencao.png" alt="Erro" className="status-icon-small" />
             <span>Erro ao Carregar Dados</span>
           </div>
           <p className="error-message">{error}</p>
@@ -57,12 +57,13 @@ function Comparativo() {
     );
   }
 
-  const renderTable = (items, title) => {
+  const renderTable = (items, title, icon) => {
     if (!items || items.length === 0) return null;
 
     return (
       <div className="table-container" style={{ marginBottom: 'var(--space-lg)' }}>
-        <div className="table-header">
+        <div className="table-header" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src={icon} alt="Icone" className="status-icon-small" />
           <h3 className="table-title">{title}</h3>
         </div>
         <table className="table">
@@ -91,7 +92,9 @@ function Comparativo() {
                   R$ {(item.preco_unitario || 0).toFixed(2)}
                 </td>
                 <td className={`price-cell ${tipo === 'maior' ? 'high' : ''}`}>
-                  <strong>R$ {(item.total_item || 0).toFixed(2)}</strong>
+                  <strong style={{ color: tipo === 'menor' ? 'var(--Verde-Accent)' : 'var(--Vermelho-Alert)' }}>
+                    R$ {(item.total_item || 0).toFixed(2)}
+                  </strong>
                 </td>
               </tr>
             ))}
@@ -106,151 +109,75 @@ function Comparativo() {
       <header className="page-header">
         <h1 className="page-title">Composição Detalhada</h1>
         <p className="page-description">
-          Produtos que compõem a cesta básica e complemento com informações completas de preços e quantidades.
+          Análise técnica dos itens coletados no Giassi via Web Scraping.
         </p>
       </header>
 
       {/* Controles */}
-      <div style={{
-        display: 'flex',
-        gap: 'var(--space-md)',
-        marginBottom: 'var(--space-xl)',
-        flexWrap: 'wrap'
-      }}>
+      <div style={{ display: 'flex', gap: '15px', marginBottom: '30px', flexWrap: 'wrap' }}>
         <div style={{
-          background: 'var(--bg-card)',
-          padding: 'var(--space-sm)',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border-default)',
+          background: 'var(--Preto-Elevated)',
+          padding: '8px',
+          borderRadius: '8px',
+          border: '1px solid var(--Cinza-Dark)',
           display: 'flex',
-          gap: 'var(--space-xs)'
+          gap: '8px'
         }}>
           <button
             className={`btn ${tipo === 'menor' ? 'btn-success' : 'btn-secondary'}`}
             onClick={() => setTipo('menor')}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            🛒 Menor Valor
+            <img src="/menos.png" alt="Menor" style={{ width: '16px' }} />
+            Menor Valor
           </button>
           <button
-            className={`btn ${tipo === 'maior' ? 'btn-primary' : 'btn-secondary'}`}
+            className={`btn ${tipo === 'maior' ? 'btn-danger' : 'btn-secondary'}`}
             onClick={() => setTipo('maior')}
-            style={tipo === 'maior' ? { background: 'var(--danger)' } : {}}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '8px',
+              backgroundColor: tipo === 'maior' ? 'var(--Vermelho-Alert)' : '' 
+            }}
           >
-            💰 Maior Valor
+            <img src="/mais.png" alt="Maior" style={{ width: '16px' }} />
+            Maior Valor
           </button>
         </div>
 
         <button
           className={`btn ${showComplemento ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setShowComplemento(!showComplemento)}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
         >
-          {showComplemento ? '✓ Exibindo Complemento' : '+ Mostrar Complemento'}
+          <img src={showComplemento ? "/metrica.png" : "/mais.png"} alt="Toggle" style={{ width: '16px' }} />
+          {showComplemento ? 'Ocultar Complemento' : 'Mostrar Complemento'}
         </button>
       </div>
 
-      {/* KPI Cards */}
-      <div className="kpi-grid" style={{ marginBottom: 'var(--space-xl)' }}>
-        <div className={`kpi-card ${tipo === 'menor' ? 'success' : 'danger'}`}>
-          <div className="kpi-label">Cesta Básica (5 itens)</div>
-          <div className={`kpi-value ${tipo === 'menor' ? 'success' : 'danger'}`}>
-            R$ {data.total_basica.toFixed(2)}
-          </div>
-          <div className="kpi-subtitle">
-            Arroz · Feijão · Óleo · Açúcar · Café
-          </div>
-        </div>
-
-        {showComplemento && (
-          <>
-            <div className={`kpi-card ${tipo === 'menor' ? 'success' : 'danger'}`}>
-              <div className="kpi-label">Complemento (3 itens)</div>
-              <div className="kpi-value">
-                R$ {data.total_complemento.toFixed(2)}
-              </div>
-              <div className="kpi-subtitle">
-                Macarrão · Farinha · Sal
-              </div>
-            </div>
-
-            <div className={`kpi-card ${tipo === 'menor' ? 'success' : 'danger'}`}>
-              <div className="kpi-label">Total Completo (8 itens)</div>
-              <div className={`kpi-value ${tipo === 'menor' ? 'success' : 'danger'}`}>
-                R$ {data.total_completo.toFixed(2)}
-              </div>
-              <div className="kpi-subtitle">
-                Básica + Complemento
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
       {/* Tabela Cesta Básica */}
-      {renderTable(data.basica, '🛒 Cesta Básica (5 itens essenciais)')}
+      {renderTable(data.basica, 'Cesta Básica (5 itens essenciais)', '/carrinho-compras.png')}
 
       {/* Tabela Complemento */}
-      {showComplemento && renderTable(data.complemento, '➕ Complemento (3 itens adicionais)')}
+      {showComplemento && renderTable(data.complemento, 'Complemento (3 itens adicionais)', '/mais.png')}
 
-      {/* Resumo */}
-      <div className="table-container">
-        <div className="table-header">
-          <h3 className="table-title">Resumo Financeiro</h3>
-        </div>
-        <div className="table-footer">
-          <div>
-            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
-              Total Cesta Básica (5 itens)
-            </div>
-            <div className={`price-cell ${tipo === 'maior' ? 'high' : ''}`} style={{ fontSize: '1.25rem' }}>
-              <strong>R$ {data.total_basica.toFixed(2)}</strong>
-            </div>
-          </div>
-
-          {showComplemento && (
-            <>
-              <div style={{ fontSize: '1.5rem', color: 'var(--text-muted)' }}>+</div>
-
-              <div>
-                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
-                  Complemento (3 itens)
-                </div>
-                <div style={{ fontSize: '1.25rem', color: 'var(--text-primary)' }}>
-                  <strong>R$ {data.total_complemento.toFixed(2)}</strong>
-                </div>
-              </div>
-
-              <div style={{ fontSize: '1.5rem', color: 'var(--text-muted)' }}>=</div>
-
-              <div>
-                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
-                  Total Completo (8 itens)
-                </div>
-                <div className={`price-cell ${tipo === 'maior' ? 'high' : ''}`} style={{ fontSize: '1.5rem' }}>
-                  <strong>R$ {data.total_completo.toFixed(2)}</strong>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Observações */}
-      <div style={{
-        background: 'var(--info-bg)',
-        border: '1px solid var(--info-border)',
-        borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-lg)',
-        marginTop: 'var(--space-lg)'
+      {/* Observações com Globo.png */}
+      <div className="info-box" style={{
+        background: 'var(--Preto-Elevated)',
+        border: '1px solid var(--Cinza-Dark)',
+        borderRadius: '8px',
+        padding: '20px',
+        marginTop: '20px'
       }}>
-        <h3 style={{ marginBottom: 'var(--space-sm)', color: 'var(--info)' }}>
-          ℹ️ Sobre os Cálculos
+        <h3 style={{ marginBottom: '10px', color: 'var(--Azul-Primary)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/globo.png" alt="Global" className="status-icon-small" />
+          Sobre os Cálculos de BI
         </h3>
-        <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
-          <li><strong>Preço por kg/L:</strong> Normalizado para comparação entre embalagens diferentes</li>
-          <li><strong>Total Item:</strong> Preço por kg/L × Quantidade Necessária</li>
-          <li><strong>Critério Menor Valor:</strong> Produto com menor preço por kg/L em cada categoria</li>
-          <li><strong>Critério Maior Valor:</strong> Produto com maior preço por kg/L em cada categoria</li>
-          <li><strong>Fonte:</strong> Dados coletados via web scraping do site Giassi Supermercados</li>
+        <ul style={{ color: 'var(--Branco-Text)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
+          <li><strong>Métrica Base:</strong> Normalização por kg/L para comparação justa entre marcas.</li>
+          <li><strong>Regra de Negócio:</strong> Filtro automático de menor/maior preço por categoria.</li>
+          <li><strong>Extração:</strong> Dados sincronizados com o banco SQLite <code>cesta_basica.db</code>.</li>
         </ul>
       </div>
     </div>
