@@ -271,18 +271,18 @@ app.add_middleware(
 
 ---
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
-### ❌ Erro: "Sem produtos no banco"
+###  Erro: "Sem produtos no banco"
 **Solução:** Execute o pipeline completo na ordem (passos 1-4)
 
-### ❌ Erro: "API não disponível" no Frontend
+###  Erro: "API não disponível" no Frontend
 **Solução:** Verifique se `python api_cesta_basica.py` está rodando
 
-### ❌ Scraper não encontra produtos
+###  Scraper não encontra produtos
 **Solução:** O site pode ter mudado estrutura. Verifique os seletores CSS em `03_scraper_giassi.py`
 
-### ❌ CORS Error no navegador
+###  CORS Error no navegador
 **Solução:** Certifique-se que API e Frontend estão nas portas corretas (8000 e 5173)
 
 ---
