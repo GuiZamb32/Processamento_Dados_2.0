@@ -59,11 +59,11 @@ function Dashboard() {
           <h3 className="empty-title">Pipeline Não Executado</h3>
           <p className="empty-description">
             Execute os scripts do pipeline na seguinte ordem:<br/>
-            1. <code>python 01_criar_banco.py</code><br/>
-            2. <code>python 02_coletar_ipca.py</code><br/>
-            3. <code>python -m scrapy runspider 03_scraper_giassi.py</code><br/>
-            4. <code>python 04_carregar_produtos.py</code><br/>
-            5. <code>python api_cesta_basica.py</code> (esta API)
+            1. <code>py 01_criar_banco.py</code><br/>
+            2. <code>py 02_coletar_ipca.py</code><br/>
+            3. <code>py -m scrapy runspider 03_scraper_giassi.py</code><br/>
+            4. <code>py 04_carregar_produtos.py</code><br/>
+            5. <code>py api_cesta_basica.py</code> (esta API)
           </p>
         </div>
       </div>

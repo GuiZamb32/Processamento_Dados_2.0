@@ -52,7 +52,7 @@ function App() {
         <div className="sidebar-footer">
           <p className="footer-text">UniSENAI SC</p>
           <p className="footer-text">BI & Data Visualization</p>
-          <p className="footer-year">2025</p>
+          <p className="footer-year">2026</p>
         </div>
       </nav>
 

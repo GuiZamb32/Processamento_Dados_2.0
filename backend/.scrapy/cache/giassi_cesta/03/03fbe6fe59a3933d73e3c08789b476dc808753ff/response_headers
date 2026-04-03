@@ -1,26 +1,26 @@
 Content-Type: text/html; charset=utf-8
-Date: Sun, 29 Mar 2026 00:43:45 GMT
+Date: Fri, 03 Apr 2026 17:35:39 GMT
 X-Vtex-Cache-Backend-Connect-Time: 0.001
-X-Vtex-Cache-Backend-Header-Time: 0.370
+X-Vtex-Cache-Backend-Header-Time: 0.220
 Server: nginx
-Cache-Control: public, max-age=606, stale-while-revalidate=1200, stale-if-error=3600
+Cache-Control: public, max-age=623, stale-while-revalidate=1200, stale-if-error=3600
 Content-Encoding: gzip
-Etag: "172D8BD2E2E547757D30E3332F9156D5"
-X-Vtex-Janus-Router-Backend-App: io-production-vstore-group-1-1a-cl4
+Etag: "EB295F5ECAB2ABA4F99655A6AF6AD56A"
+X-Vtex-Janus-Router-Backend-App: io-production-vstore-group-1-1c-r3n
 X-Router-Cache: MISS
 X-Frame-Options: SAMEORIGIN
-X-Vtex-Etag-Control: public, max-age=606
-X-Vtex-Router-Elapsed-Time: 00:00:00.3350874
-X-Request-Id: adecf58cc9f14dafacbf8f87c14e3e5b
-X-Vtex-Router-Version: 9.17.22
-X-Vtex-Backend-Elapsed-Time: 00:00:00.3328886
-X-Vtex-Io-Cluster-Id: prod-dj-iostore-eks-use1a-cl4
+X-Vtex-Etag-Control: public, max-age=623
+X-Vtex-Router-Elapsed-Time: 00:00:00.2177472
+X-Request-Id: 218e86cb58c54a7496213a7cc6a730fe
+X-Vtex-Router-Version: 9.18.1
+X-Vtex-Backend-Elapsed-Time: 00:00:00.2152434
+X-Vtex-Io-Cluster-Id: prod-dj-iostore-eks-use1c-r3n
 X-Vtex-Cache-Status: MISS
 X-Powered-By-Vtex-Cache: 2.6.1
-X-Vtex-Cache-Server: ip-10-203-75-214.ec2.internal
-X-Vtex-Cache-Time: 0.369
+X-Vtex-Cache-Server: ip-10-203-62-49.ec2.internal
+X-Vtex-Cache-Time: 0.221
 Vary: accept-encoding
 X-Cache: Miss from cloudfront
-Via: 1.1 e4612e7787ff6c42d180bd2f56444efc.cloudfront.net (CloudFront)
+Via: 1.1 e5188d40d3c940f72a8a640536aac6b4.cloudfront.net (CloudFront)
 X-Amz-Cf-Pop: GRU3-P13
-X-Amz-Cf-Id: RtnSUih0Uzp0Lf81rScsbSsWuUiJP6pcUve_SFwW3-Cn4uJKMEHjeQ==
+X-Amz-Cf-Id: p8HyIl8rsLHiYGHTRcXbQEhEAzHmoYIsn2TkpgYB_KTmrVfGKiKkjA==
