@@ -1,4 +1,4 @@
-#  Pipeline de Dados — Cesta Básica (Versão Profissional)
+#  Pipeline de Dados — Cesta Básica 
 
 **Dashboard Interativo com React + FastAPI para Análise de Preços da Cesta Básica**
 
