@@ -1,33 +1,214 @@
-import React from 'react';
-import './Dashboard.css';
+import React, { useState, useEffect } from 'react';
 
-const Dashboard = () => {
+const API_URL = 'http://localhost:8000';
+
+function Dashboard() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${API_URL}/api/dashboard`);
+      
+      if (!response.ok) {
+        throw new Error('Falha ao carregar dados. Verifique se a API está rodando.');
+      }
+      
+      const json = await response.json();
+      setData(json);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="page">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Carregando dados...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page">
+        <div className="error">
+          <div className="error-title">
+            <span>⚠️</span>
+            <span>Erro ao Carregar Dados</span>
+          </div>
+          <p className="error-message">{error}</p>
+          <button className="btn btn-primary" onClick={fetchDashboardData} style={{ marginTop: '1rem' }}>
+            Tentar Novamente
+          </button>
+        </div>
+        <div className="empty-state">
+          <div className="empty-icon">📊</div>
+          <h3 className="empty-title">Pipeline Não Executado</h3>
+          <p className="empty-description">
+            Execute os scripts do pipeline na seguinte ordem:<br/>
+            1. <code>python 01_criar_banco.py</code><br/>
+            2. <code>python 02_coletar_ipca.py</code><br/>
+            3. <code>python -m scrapy runspider 03_scraper_giassi.py</code><br/>
+            4. <code>python 04_carregar_produtos.py</code><br/>
+            5. <code>python api_cesta_basica.py</code> (esta API)
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="page-container">
+    <div className="page">
       <header className="page-header">
-        <h1>Dashboard Geral</h1>
-        <p>Visão consolidada dos custos da cesta básica em Florianópolis.</p>
+        <h1 className="page-title">Dashboard Geral</h1>
+        <p className="page-description">
+          Visão consolidada dos custos da cesta básica em Florianópolis/SC com dados do Giassi e IPCA do Banco Central.
+        </p>
       </header>
 
+      {/* KPIs Principais */}
       <div className="kpi-grid">
         <div className="kpi-card success">
-          <span>Cesta Menor Valor</span>
-          <h2>R$ 145,20</h2>
-          <small>Atualizado via Web Scraping</small>
+          <div className="kpi-label">Cesta Menor Valor</div>
+          <div className="kpi-value success">
+            R$ {data.cesta_menor_valor.toFixed(2)}
+          </div>
+          <div className="kpi-subtitle">
+            {data.itens_basica} produtos · Baseado em web scraping
+          </div>
         </div>
-        <div className="kpi-card alert">
-          <span>Cesta Maior Valor</span>
-          <h2>R$ 210,50</h2>
-          <small>Marcas Premium</small>
+
+        <div className="kpi-card danger">
+          <div className="kpi-label">Cesta Maior Valor</div>
+          <div className="kpi-value danger">
+            R$ {data.cesta_maior_valor.toFixed(2)}
+          </div>
+          <div className="kpi-subtitle">
+            {data.itens_basica} produtos · Marcas premium
+          </div>
         </div>
-        <div className="kpi-card primary">
-          <span>IPCA Acumulado</span>
-          <h2>4,52%</h2>
-          <small>Fonte: Banco Central</small>
+
+        <div className="kpi-card">
+          <div className="kpi-label">IPCA Acumulado Anual</div>
+          <div className="kpi-value">
+            {data.ipca_acumulado_anual.toFixed(2)}%
+          </div>
+          <div className="kpi-subtitle">
+            Fonte: API Banco Central
+          </div>
         </div>
+      </div>
+
+      {/* Complemento */}
+      <div className="kpi-grid">
+        <div className="kpi-card success">
+          <div className="kpi-label">Complemento (Menor)</div>
+          <div className="kpi-value">
+            R$ {data.complemento_menor.toFixed(2)}
+          </div>
+          <div className="kpi-subtitle">
+            {data.itens_complemento} produtos adicionais
+          </div>
+        </div>
+
+        <div className="kpi-card danger">
+          <div className="kpi-label">Complemento (Maior)</div>
+          <div className="kpi-value">
+            R$ {data.complemento_maior.toFixed(2)}
+          </div>
+          <div className="kpi-subtitle">
+            {data.itens_complemento} produtos adicionais
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-label">Total de Produtos</div>
+          <div className="kpi-value">
+            {data.total_produtos}
+          </div>
+          <div className="kpi-subtitle">
+            Cadastrados no banco SQLite
+          </div>
+        </div>
+      </div>
+
+      {/* Totais Completos */}
+      <div className="table-container">
+        <div className="table-header">
+          <h2 className="table-title">Resumo Consolidado (Básica + Complemento)</h2>
+        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Cesta Básica (5 itens)</th>
+              <th>Complemento (3 itens)</th>
+              <th>Total Completo (8 itens)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Menor Valor</strong></td>
+              <td className="price-cell">
+                R$ {data.cesta_menor_valor.toFixed(2)}
+              </td>
+              <td className="price-cell">
+                R$ {data.complemento_menor.toFixed(2)}
+              </td>
+              <td className="price-cell">
+                <strong>R$ {data.total_menor_completo.toFixed(2)}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Maior Valor</strong></td>
+              <td className="price-cell high">
+                R$ {data.cesta_maior_valor.toFixed(2)}
+              </td>
+              <td className="price-cell high">
+                R$ {data.complemento_maior.toFixed(2)}
+              </td>
+              <td className="price-cell high">
+                <strong>R$ {data.total_maior_completo.toFixed(2)}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Info Box */}
+      <div style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
+        borderRadius: 'var(--radius-lg)',
+        padding: 'var(--space-lg)',
+        marginTop: 'var(--space-lg)'
+      }}>
+        <h3 style={{ marginBottom: 'var(--space-sm)', color: 'var(--brand-primary)' }}>
+          ℹ️ Sobre os Dados
+        </h3>
+        <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
+          <li><strong>Cesta Básica:</strong> Arroz (5kg), Feijão (2kg), Óleo de Soja (900ml), Açúcar (1kg), Café (500g)</li>
+          <li><strong>Complemento:</strong> Macarrão (1kg), Farinha (500g), Sal (1kg)</li>
+          <li><strong>Fonte de Preços:</strong> Web Scraping automatizado do site Giassi Supermercados</li>
+          <li><strong>Fonte IPCA:</strong> API de Dados Abertos do Banco Central do Brasil (SGS 433)</li>
+          <li><strong>Banco de Dados:</strong> SQLite com {data.total_produtos} produtos cadastrados</li>
+        </ul>
       </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
