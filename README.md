@@ -1,34 +1,34 @@
-# 🛒 Pipeline de Dados — Cesta Básica (Versão Profissional)
+#  Pipeline de Dados — Cesta Básica (Versão Profissional)
 
 **Dashboard Interativo com React + FastAPI para Análise de Preços da Cesta Básica**
 
 Sistema completo de ETL e visualização para análise do custo da cesta básica em Florianópolis/SC, integrando:
-- 📊 Web Scraping do Giassi Supermercados
-- 📈 Série histórica do IPCA (Banco Central)
-- 💾 Banco de dados SQLite
-- 🚀 API REST com FastAPI
-- ⚛️ Dashboard React moderno e responsivo
+-  Web Scraping do Giassi Supermercados
+-  Série histórica do IPCA (Banco Central)
+-  Banco de dados SQLite
+-  API REST com FastAPI
+-  Dashboard React moderno e responsivo
 
 ---
 
-## 🎯 Funcionalidades
+##  Funcionalidades
 
 ### Backend (Python + FastAPI)
-- ✅ Coleta automatizada de preços via web scraping (Scrapy)
-- ✅ Integração com API do Banco Central (IPCA)
-- ✅ Banco de dados relacional (SQLite + SQLAlchemy)
-- ✅ API REST com documentação automática (FastAPI)
-- ✅ Cálculos de deflação histórica (2016-2024)
+-  Coleta automatizada de preços via web scraping (Scrapy)
+-  Integração com API do Banco Central (IPCA)
+-  Banco de dados relacional (SQLite + SQLAlchemy)
+-  API REST com documentação automática (FastAPI)
+-  Cálculos de deflação histórica (2016-2024)
 
 ### Frontend (React)
-- ✅ **Dashboard**: KPIs principais e resumo consolidado
-- ✅ **Composição**: Detalhamento completo dos produtos por categoria
-- ✅ **Histórico**: Gráficos de progressão com deflação IPCA
-- ✅ **Status**: Monitoramento da integridade do pipeline
+-  **Dashboard**: KPIs principais e resumo consolidado
+-  **Composição**: Detalhamento completo dos produtos por categoria
+-  **Histórico**: Gráficos de progressão com deflação IPCA
+-  **Status**: Monitoramento da integridade do pipeline
 
 ---
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 pipeline-cesta-basica/
@@ -61,14 +61,14 @@ pipeline-cesta-basica/
 
 ---
 
-## 🚀 Instalação e Execução
+##  Instalação e Execução
 
-### 1️⃣ Requisitos
+### 1️ Requisitos
 - **Python 3.10+**
 - **Node.js 18+** 
 - **npm** ou **yarn**
 
-### 2️⃣ Backend - Instalação
+### 2️ Backend - Instalação
 
 ```bash
 # Instalar dependências Python
@@ -78,7 +78,7 @@ pip install scrapy sqlalchemy pandas requests fastapi uvicorn
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Backend - Execução do Pipeline
+### 3️ Backend - Execução do Pipeline
 
 Execute os scripts **na ordem**:
 
@@ -100,7 +100,7 @@ python 04_carregar_produtos.py
 python 05_gerar_relatorios.py
 ```
 
-### 4️⃣ Backend - Iniciar API
+### 4️ Backend - Iniciar API
 
 ```bash
 # Iniciar servidor FastAPI
@@ -111,7 +111,7 @@ python api_cesta_basica.py
 # Documentação interativa: http://localhost:8000/docs
 ```
 
-### 5️⃣ Frontend - Instalação
+### 5️ Frontend - Instalação
 
 ```bash
 cd frontend
@@ -123,7 +123,7 @@ npm install
 yarn install
 ```
 
-### 6️⃣ Frontend - Executar
+### 6️ Frontend - Executar
 
 ```bash
 # Modo desenvolvimento (com hot reload)
@@ -134,7 +134,7 @@ npm run dev
 
 ---
 
-## 📊 Endpoints da API
+##  Endpoints da API
 
 | Endpoint | Método | Descrição |
 |----------|--------|-----------|
@@ -162,7 +162,7 @@ npm run dev
 
 ---
 
-## 🎨 Design System
+##  Design System
 
 ### Paleta de Cores
 
@@ -186,7 +186,7 @@ npm run dev
 
 ---
 
-## 📚 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Backend
 - **Python 3.10+**
@@ -209,7 +209,7 @@ npm run dev
 
 ---
 
-## 📈 Metodologia
+##  Metodologia
 
 ### Cesta Básica (5 itens obrigatórios)
 1. Arroz (5kg)
@@ -237,7 +237,7 @@ IPCA_ano = ∏(1 + taxa_mensal / 100) - 1
 
 ---
 
-## 🔧 Configurações Avançadas
+##  Configurações Avançadas
 
 ### Cache do Scrapy
 O scraper usa cache HTTP de 24 horas para evitar sobrecarga no site:
@@ -287,14 +287,14 @@ app.add_middleware(
 
 ---
 
-## 📄 Licença
+##  Licença
 
 Projeto acadêmico - **UniSENAI SC 2025/1**  
 Disciplina: BI e Data Visualization
 
 ---
 
-## 👨‍💻 Autor
+##  Autor
 
 **Seu Nome**  
 Pipeline de Dados - Análise de Cesta Básica  
@@ -302,7 +302,7 @@ Pipeline de Dados - Análise de Cesta Básica
 
 ---
 
-## 🎓 Créditos
+##  Créditos
 
 - **Dados IPCA:** Banco Central do Brasil (API SGS 433)
 - **Preços:** Giassi Supermercados (web scraping educacional)
