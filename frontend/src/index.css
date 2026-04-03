@@ -1,0 +1,49 @@
+:root {
+  /* Backgrounds & Surfaces */
+  --Preto-Deep: #0d0d0d;      /* O preto mais profundo para o fundo principal */
+  --Preto-Pure: #111111;      /* Preto para cards ou seções secundárias */
+  --Preto-Elevated: #1a1a1a;  /* Preto "elevado" para dar profundidade a menus */
+  
+  --Cinza-Dark: #424242;      /* Cinza escuro para bordas ou divisores */
+  --Cinza-Muted: #737373;     /* Cinza médio para textos secundários ou ícones */
+  --Branco-Text: #eaeaea;     /* O "branco" suave para leitura (evita cansaço visual) */
+
+
+  /* Buttons & Primary Actions */
+  --Azul-Dark: #034C94;       /* Azul profundo para Hover de botões */
+  --Azul-Primary: #016FE1;    /* Azul principal da identidade visual */
+  --Azul-Light: #157eef;      /* Azul claro para detalhes ou estados ativos */
+
+
+  /* Success & Data (Ideal para a Cesta de Menor Valor) */
+  --Verde-Accent: #04BDA2;    /* Verde vibrante para destaque/sucesso */
+  --Verde-Medium: #098c78;    /* Verde para indicadores de preço baixo */
+  --Verde-Deep: #0a5247;      /* Verde escuro para fundos ou labels */
+
+  
+  /* Alert & High Price (Ideal para a Cesta de Maior Valor) */
+  --Vermelho-Alert: #bd0404;  /* Vermelho para avisos ou preços altos */
+  --Vermelho-Medium: #8c0909; /* Vermelho para textos de alerta */
+  --Vermelho-Deep: #520a0a;   /* Vermelho escuro para estados críticos */
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root, body, html{
+  height: 100vh;
+}
+
+
+.page-container { padding: 2rem; animation: fadeIn 0.5s ease; }
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.kpi-card { background: var(--Preto-Elevated); padding: 1.5rem; border-radius: 12px; border-top: 4px solid var(--Azul-Primary); }
+.kpi-card.success { border-color: var(--Verde-Accent); }
+.kpi-card.alert { border-color: var(--Vermelho-Alert); }
+.data-table { width: 100%; border-collapse: collapse; margin-top: 2rem; background: var(--Preto-Pure); }
+.data-table th { background: var(--Cinza-Dark); color: white; padding: 1rem; text-align: left; }
+.data-table td { padding: 1rem; border-bottom: 1px solid var(--Cinza-Dark); color: var(--Branco-Text); }
+.row-bonus { background: rgba(4, 189, 162, 0.05); color: var(--Verde-Accent); }
