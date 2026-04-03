@@ -1,150 +1,310 @@
-#  Pipeline de Dados — Cesta Básica
+# 🛒 Pipeline de Dados — Cesta Básica (Versão Profissional)
 
-**Avaliação Prática · BI e Data Visualization · UniSENAI SC 2025/1**
+**Dashboard Interativo com React + FastAPI para Análise de Preços da Cesta Básica**
 
-Pipeline completo de engenharia de dados para análise do custo da cesta básica em Florianópolis, integrando coleta de dados econômicos via API pública, web scraping de supermercado, persistência em banco relacional e geração de relatórios analíticos.
-
----
-
-## Estrutura do Projeto
-
-```
-PRO_Dados_Teste/
-├── models.py                  # Modelos SQLAlchemy (tabelas + função de criação do banco)
-├── 01_criar_banco.py          # Cria o schema SQLite e popula as categorias
-├── 02_coletar_ipca.py         # Consulta API do Banco Central e salva série histórica
-├── 03_scraper_giassi.py       # Spider Scrapy — coleta produtos do Giassi
-├── 04_carregar_produtos.py    # ETL: carrega produtos_cesta.json no banco
-├── 05_gerar_relatorios.py     # Gera os 5 relatórios analíticos
-├── cesta_basica.db            # Banco SQLite gerado pelo pipeline
-├── produtos_cesta.json        # Saída bruta do scraper
-├── cache/                     # Cache HTTP do Scrapy (24h)
-└── scrapy-giassi.log          # Log de execução do scraper
-```
+Sistema completo de ETL e visualização para análise do custo da cesta básica em Florianópolis/SC, integrando:
+- 📊 Web Scraping do Giassi Supermercados
+- 📈 Série histórica do IPCA (Banco Central)
+- 💾 Banco de dados SQLite
+- 🚀 API REST com FastAPI
+- ⚛️ Dashboard React moderno e responsivo
 
 ---
 
-## Tecnologias
+## 🎯 Funcionalidades
 
-| Biblioteca     | Uso                                      |
-|----------------|------------------------------------------|
-| `sqlalchemy`   | ORM e interação com o banco SQLite       |
-| `scrapy`       | Web scraping do site do Giassi           |
-| `pandas`       | Processamento e leitura das queries SQL  |
-| `requests`     | Consumo da API do Banco Central          |
+### Backend (Python + FastAPI)
+- ✅ Coleta automatizada de preços via web scraping (Scrapy)
+- ✅ Integração com API do Banco Central (IPCA)
+- ✅ Banco de dados relacional (SQLite + SQLAlchemy)
+- ✅ API REST com documentação automática (FastAPI)
+- ✅ Cálculos de deflação histórica (2016-2024)
 
----
-
-## Instalação
-
-```powershell
-py -m pip install scrapy sqlalchemy pandas requests w3lib
-```
+### Frontend (React)
+- ✅ **Dashboard**: KPIs principais e resumo consolidado
+- ✅ **Composição**: Detalhamento completo dos produtos por categoria
+- ✅ **Histórico**: Gráficos de progressão com deflação IPCA
+- ✅ **Status**: Monitoramento da integridade do pipeline
 
 ---
 
-## Execução do Pipeline
+## 📁 Estrutura do Projeto
 
-Execute os scripts na ordem abaixo a partir da pasta do projeto.
-
-### 1. Criar o banco de dados
-Cria as tabelas `ipca`, `categoria` e `produto` no SQLite e insere as 8 categorias da cesta.
-
-```powershell
-py 01_criar_banco.py
 ```
-
-### 2. Coletar série histórica do IPCA
-Consulta a API de dados abertos do Banco Central (SGS 433) de 2015 a 2024 e persiste os 120 registros mensais.
-
-```powershell
-py 02_coletar_ipca.py
-```
-
-### 3. Coletar preços do Giassi (Web Scraping)
-Percorre o sitemap do Giassi, filtra apenas produtos das categorias da cesta e salva em `produtos_cesta.json`. Usa cache HTTP de 24h para não sobrecarregar o site.
-
-```powershell
-py -m scrapy runspider .\03_scraper_giassi.py
-```
-
-> ⚠️ A primeira execução pode levar vários minutos. As seguintes são instantâneas graças ao cache.
-
-### 4. Carregar produtos no banco
-Lê o `produtos_cesta.json` e insere os produtos no banco, vinculando cada um à sua categoria.
-
-```powershell
-py 04_carregar_produtos.py
-```
-
-### 5. Gerar relatórios
-Processa os dados e exibe os 5 relatórios no terminal.
-
-```powershell
-py 05_gerar_relatorios.py
+pipeline-cesta-basica/
+├── backend/
+│   ├── models.py                  # Modelos SQLAlchemy (tabelas)
+│   ├── 01_criar_banco.py          # Cria schema e categorias
+│   ├── 02_coletar_ipca.py         # Coleta IPCA do Banco Central
+│   ├── 03_scraper_giassi.py       # Spider Scrapy (web scraping)
+│   ├── 04_carregar_produtos.py    # ETL: JSON → SQLite
+│   ├── 05_gerar_relatorios.py     # Relatórios em terminal
+│   ├── api_cesta_basica.py        # API FastAPI
+│   ├── cesta_basica.db            # Banco SQLite (gerado)
+│   ├── produtos_cesta.json        # Saída do scraper (gerado)
+│   └── cache/                     # Cache HTTP do Scrapy
+│
+└── frontend/
+    ├── src/
+    │   ├── App.jsx                # App principal com navegação
+    │   ├── App.css                # Estilos globais
+    │   ├── pages/
+    │   │   ├── Dashboard.jsx      # Página de KPIs
+    │   │   ├── Comparativo.jsx    # Composição detalhada
+    │   │   ├── Analise.jsx        # Progressão histórica
+    │   │   └── Status.jsx         # Status do pipeline
+    │   └── main.jsx               # Entry point
+    ├── index.html
+    ├── package.json
+    └── vite.config.js
 ```
 
 ---
 
-## Relatórios Gerados
+## 🚀 Instalação e Execução
 
-| # | Relatório |
-|---|-----------|
-| 1 | Composição da cesta básica de **menor valor** (5 itens) |
-| 2 | Cesta de menor valor **com complemento** (8 itens) |
-| 3 | Composição da cesta básica de **maior valor** (5 itens) |
-| 4 | Cesta de maior valor **com complemento** (8 itens) |
-| 5 | Progressão histórica estimada por **deflação IPCA** (2016–2024) |
+### 1️⃣ Requisitos
+- **Python 3.10+**
+- **Node.js 18+** 
+- **npm** ou **yarn**
 
-Cada relatório de cesta exibe: categoria, nome do produto, preço unitário, volume/embalagem e custo total por item. Os totais são apresentados separando cesta básica e complemento.
+### 2️⃣ Backend - Instalação
+
+```bash
+# Instalar dependências Python
+pip install scrapy sqlalchemy pandas requests fastapi uvicorn
+
+# Ou com requirements.txt
+pip install -r requirements.txt
+```
+
+### 3️⃣ Backend - Execução do Pipeline
+
+Execute os scripts **na ordem**:
+
+```bash
+# 1. Criar banco de dados e categorias
+python 01_criar_banco.py
+
+# 2. Coletar série histórica do IPCA (2015-2024)
+python 02_coletar_ipca.py
+
+# 3. Web scraping dos produtos (Giassi)
+# ATENÇÃO: Primeira execução pode demorar ~10 minutos
+python -m scrapy runspider 03_scraper_giassi.py
+
+# 4. Carregar produtos no banco
+python 04_carregar_produtos.py
+
+# 5. (Opcional) Ver relatórios no terminal
+python 05_gerar_relatorios.py
+```
+
+### 4️⃣ Backend - Iniciar API
+
+```bash
+# Iniciar servidor FastAPI
+python api_cesta_basica.py
+
+# API estará disponível em:
+# http://localhost:8000
+# Documentação interativa: http://localhost:8000/docs
+```
+
+### 5️⃣ Frontend - Instalação
+
+```bash
+cd frontend
+
+# Instalar dependências
+npm install
+
+# Ou com yarn
+yarn install
+```
+
+### 6️⃣ Frontend - Executar
+
+```bash
+# Modo desenvolvimento (com hot reload)
+npm run dev
+
+# Aplicação estará em: http://localhost:5173
+```
 
 ---
 
-## Modelagem de Dados
+## 📊 Endpoints da API
 
-```
-ipca
-├── id          INTEGER  PK
-├── data        DATE     UNIQUE   ← primeiro dia do mês de referência
-└── valor       FLOAT             ← variação % mensal
+| Endpoint | Método | Descrição |
+|----------|--------|-----------|
+| `/` | GET | Informações da API |
+| `/api/dashboard` | GET | KPIs principais |
+| `/api/cesta/menor` | GET | Composição cesta menor valor |
+| `/api/cesta/maior` | GET | Composição cesta maior valor |
+| `/api/historico` | GET | Progressão histórica (deflação IPCA) |
+| `/api/status` | GET | Status e integridade do pipeline |
 
-categoria
-├── id                    INTEGER  PK
-├── nome                  TEXT     UNIQUE
-├── quantidade_necessaria FLOAT             ← ex: 5 (para 5kg de arroz)
-├── unidade               TEXT              ← "kg" ou "L"
-└── complemento           INTEGER           ← 0 = cesta básica | 1 = complemento
+### Exemplo de Resposta - Dashboard
 
-produto
-├── id             INTEGER  PK
-├── categoria_id   INTEGER  FK → categoria
-├── nome           TEXT
-├── marca          TEXT
-├── preco          FLOAT
-├── unidade_volume TEXT              ← ex: "1.0kg", "0.9L"
-├── preco_por_kg   FLOAT             ← preço normalizado para comparação
-└── url            TEXT
-```
-
----
-
-## Lógica de Deflação Histórica
-
-Com base nos preços atuais coletados no Giassi, o Relatório 5 estima quanto a cesta teria custado em anos anteriores usando deflação:
-
-```
-valor_ano_passado = valor_atual ÷ ∏(1 + IPCA_ano / 100)
-```
-
-O IPCA acumulado anual é calculado pelo produto dos fatores mensais (juros compostos):
-
-```
-ipca_acumulado_ano = ∏(1 + taxa_mensal / 100) − 1
+```json
+{
+  "cesta_menor_valor": 145.20,
+  "cesta_maior_valor": 210.50,
+  "complemento_menor": 18.90,
+  "complemento_maior": 32.40,
+  "total_menor_completo": 164.10,
+  "total_maior_completo": 242.90,
+  "ipca_acumulado_anual": 4.52,
+  "total_produtos": 120
+}
 ```
 
 ---
 
-## Fontes de Dados
+## 🎨 Design System
 
-- **IPCA**: [API de Dados Abertos — Banco Central do Brasil (SGS 433)](https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json)
-- **Preços**: [Giassi Supermercados — Florianópolis/SC](https://www.giassi.com.br)
+### Paleta de Cores
+
+```css
+/* Backgrounds */
+--bg-deep: #0a0a0a        /* Fundo principal */
+--bg-card: #1f1f1f        /* Cards e containers */
+--bg-elevated: #1a1a1a    /* Elementos elevados */
+
+/* Brand */
+--brand-primary: #016FE1  /* Azul principal */
+--success: #04BDA2        /* Verde (menor valor) */
+--danger: #bd0404         /* Vermelho (maior valor) */
+--warning: #f59e0b        /* Laranja (avisos) */
+
+/* Text */
+--text-primary: #e8e8e8   /* Texto principal */
+--text-secondary: #a8a8a8 /* Texto secundário */
+--text-muted: #6a6a6a     /* Texto discreto */
+```
+
+---
+
+## 📚 Tecnologias Utilizadas
+
+### Backend
+- **Python 3.10+**
+- **FastAPI** — Framework web moderno e rápido
+- **SQLAlchemy** — ORM para banco de dados
+- **Scrapy** — Framework de web scraping
+- **Pandas** — Manipulação de dados
+- **Uvicorn** — Servidor ASGI
+
+### Frontend
+- **React 18** — Biblioteca UI
+- **Vite** — Build tool ultrarrápido
+- **CSS Modules** — Estilos encapsulados
+- **Fetch API** — Comunicação com backend
+
+### Dados
+- **SQLite** — Banco de dados embutido
+- **API Banco Central** — Série histórica IPCA (SGS 433)
+- **Giassi.com.br** — Fonte de preços (web scraping)
+
+---
+
+## 📈 Metodologia
+
+### Cesta Básica (5 itens obrigatórios)
+1. Arroz (5kg)
+2. Feijão (2kg)
+3. Óleo de Soja (900ml)
+4. Açúcar (1kg)
+5. Café (500g)
+
+### Complemento (3 itens adicionais)
+6. Macarrão (1kg)
+7. Farinha (500g)
+8. Sal (1kg)
+
+### Cálculo de Deflação Histórica
+
+**Fórmula:**
+```
+valor_ano_anterior = valor_atual ÷ (1 + IPCA_acumulado / 100)
+```
+
+**IPCA Acumulado Anual:**
+```
+IPCA_ano = ∏(1 + taxa_mensal / 100) - 1
+```
+
+---
+
+## 🔧 Configurações Avançadas
+
+### Cache do Scrapy
+O scraper usa cache HTTP de 24 horas para evitar sobrecarga no site:
+
+```python
+# Em 03_scraper_giassi.py
+HTTPCACHE_ENABLED = True
+HTTPCACHE_EXPIRATION_SECS = 86400  # 24 horas
+```
+
+### Modificar Delay entre Requisições
+```python
+# Em 03_scraper_giassi.py
+DOWNLOAD_DELAY = 2  # segundos entre requisições
+RANDOMIZE_DOWNLOAD_DELAY = True
+```
+
+### CORS da API
+Para produção, modifique os origins permitidos:
+
+```python
+# Em api_cesta_basica.py
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://seu-dominio.com"],  # Específico para produção
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### ❌ Erro: "Sem produtos no banco"
+**Solução:** Execute o pipeline completo na ordem (passos 1-4)
+
+### ❌ Erro: "API não disponível" no Frontend
+**Solução:** Verifique se `python api_cesta_basica.py` está rodando
+
+### ❌ Scraper não encontra produtos
+**Solução:** O site pode ter mudado estrutura. Verifique os seletores CSS em `03_scraper_giassi.py`
+
+### ❌ CORS Error no navegador
+**Solução:** Certifique-se que API e Frontend estão nas portas corretas (8000 e 5173)
+
+---
+
+## 📄 Licença
+
+Projeto acadêmico - **UniSENAI SC 2025/1**  
+Disciplina: BI e Data Visualization
+
+---
+
+## 👨‍💻 Autor
+
+**Seu Nome**  
+Pipeline de Dados - Análise de Cesta Básica  
+[Seu LinkedIn] | [Seu GitHub]
+
+---
+
+## 🎓 Créditos
+
+- **Dados IPCA:** Banco Central do Brasil (API SGS 433)
+- **Preços:** Giassi Supermercados (web scraping educacional)
+- **Frameworks:** FastAPI, React, Scrapy
+- **Instituição:** UniSENAI Santa Catarina
