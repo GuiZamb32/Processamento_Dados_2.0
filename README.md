@@ -296,9 +296,9 @@ Disciplina: BI e Data Visualization
 
 ##  Autor
 
-**Seu Nome**  
+**Guilherme Zamboni Menegacio**  
 Pipeline de Dados - Análise de Cesta Básica  
-[Seu LinkedIn] | [Seu GitHub]
+[[LinkedIn]](https://www.linkedin.com/in/guilherme-zamboni-000624301/)
 
 ---
 
